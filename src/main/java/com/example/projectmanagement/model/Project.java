@@ -19,6 +19,8 @@ public class Project {
 	private String projectName;
 	@Column(name="project_dest")
 	private String projectDes;
+	 
+
 	
 	@OneToOne
 	private Employee employee;

@@ -34,11 +34,6 @@ public class ProjectServiceImpl implements ProjectService {
 			projectdto.setProjectId(project.getProjectId());
 			projectdto.setProjectName(project.getProjectName());
 			projectdto.setProjectDes(project.getProjectDes());
-//			EmployeeDto employeeDto = new EmployeeDto();
-//			employeeDto.setEmpId(project.getEmployee().getEmpId());
-//			employeeDto.setEmpEmail(project.getEmployee().getEmpEmail());
-//			employeeDto.setEmpName(project.getEmployee().getEmpName());
-
 			projectdto.setEmployee(project.getEmployee());
 			projectDto.add(projectdto);
 		}
@@ -73,7 +68,4 @@ public class ProjectServiceImpl implements ProjectService {
 			projectRepo.save(existingProject);
 		}
 	}
-	
-	
-	
 }
