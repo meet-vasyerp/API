@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.projectmanagement.dto.EmployeeDto;
 import com.example.projectmanagement.dto.ProjectDto;
+import com.example.projectmanagement.dto.ResponseDto;
 import com.example.projectmanagement.service.ProjectService;
 
 
@@ -43,12 +44,17 @@ public class ProjectController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 	}
-	
+	@GetMapping("/getProject")
+	@ResponseBody
+	public ResponseDto getProjectById(@RequestParam Long projectId) {
+		ProjectDto project = projectService.getprojectById(projectId);
+		return new ResponseDto(200,"Success", project);
+	}
 	@DeleteMapping("/deleteProject/{projectId}")
 	@ResponseBody
-	public ResponseEntity<String> deleteProjectById(@PathVariable Long projectId){
+	public ResponseDto deleteProjectById(@PathVariable Long projectId){
 		projectService.deleteProjectById(projectId);
-		return ResponseEntity.ok("Deleted !");
+		return new ResponseDto(200, "Deleted !", "");
 	}
 	
 	@PostMapping("/assignEmployee")
