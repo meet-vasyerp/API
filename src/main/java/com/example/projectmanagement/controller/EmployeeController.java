@@ -1,14 +1,7 @@
 package com.example.projectmanagement.controller;
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
+
 import java.util.List;
 
-import javax.swing.plaf.multi.MultiButtonUI;
-
-import org.apache.tomcat.util.http.fileupload.UploadContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,12 +17,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.projectmanagement.dto.EmployeeDto;
+import com.example.projectmanagement.dto.ResponseDto;
 import com.example.projectmanagement.service.EmployeeService;
 
 @Controller
 @RequestMapping("/api/Employees")
 public class EmployeeController {
-	private static final String UPLOAD_DIR = null;
 	@Autowired
 	public EmployeeService employeeService;
 	
@@ -53,8 +46,9 @@ public class EmployeeController {
 	
 	@GetMapping("/get")
 	@ResponseBody
-	public  ResponseEntity<EmployeeDto> getEmployeebyId(@RequestParam Long empid){
-		return ResponseEntity.ok(employeeService.employeegetById(empid));
+	public  ResponseDto getEmployeebyId(@RequestParam Long empid){
+		EmployeeDto emp = employeeService.employeegetById(empid);
+		return new ResponseDto(200, "Success",emp );
 	}
 	
 	@PostMapping("/uploadFile")
@@ -77,9 +71,9 @@ public class EmployeeController {
 	
 	@DeleteMapping("/deleteEmployee/{empId}")
 	@ResponseBody
-	public ResponseEntity<String> deleteEmployeeById(@PathVariable Long empId){
+	public ResponseDto deleteEmployeeById(@PathVariable Long empId){
 		employeeService.deleteEmployeeById(empId);
-		return ResponseEntity.ok("Deleted !");
+		return new ResponseDto(200, "Done!", "Employee Deleted !");
 	}
 	 
 }

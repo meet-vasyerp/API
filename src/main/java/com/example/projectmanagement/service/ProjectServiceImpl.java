@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.projectmanagement.dto.EmployeeDto;
 import com.example.projectmanagement.dto.ProjectDto;
+import com.example.projectmanagement.exception.ProjectNotFound;
 import com.example.projectmanagement.model.Employee;
 import com.example.projectmanagement.model.Project;
 import com.example.projectmanagement.repository.EmployeeRepo;
@@ -56,7 +57,11 @@ public class ProjectServiceImpl implements ProjectService {
 	
 	@Override
 	public void deleteProjectById(Long projectId) {
+		if(projectRepo.existsById(projectId)) {
 		projectRepo.deleteById(projectId);
+		}else {
+			throw new ProjectNotFound("Project Not Found !");
+		}
 	}
 
 	@Override
@@ -67,5 +72,15 @@ public class ProjectServiceImpl implements ProjectService {
 			existingProject.setEmployee(employee);
 			projectRepo.save(existingProject);
 		}
+	}
+
+	@Override
+	public ProjectDto getprojectById(Long projectId) {
+		Project project = projectRepo.findById(projectId).orElseThrow(()-> new ProjectNotFound("Project Not Found !"));
+		ProjectDto  projectDto =new ProjectDto();
+		projectDto.setProjectId(project.getProjectId());
+		projectDto.setProjectName(project.getProjectName());
+		projectDto.setProjectDes(project.getProjectDes());
+		return projectDto;
 	}
 }

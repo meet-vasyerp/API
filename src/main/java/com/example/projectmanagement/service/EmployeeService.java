@@ -19,5 +19,6 @@ public interface EmployeeService {
 	String fileUpload(MultipartFile file);
 	
 	String UploadTextFile(MultipartFile file);
+	
 	ResponseEntity<Object> downloadfile(String Name);
 }

@@ -21,6 +21,7 @@ import org.springframework.web.servlet.function.ServerRequest.Headers;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.projectmanagement.dto.EmployeeDto;
+import com.example.projectmanagement.exception.EmployeeNotFoundException;
 import com.example.projectmanagement.model.Employee;
 import com.example.projectmanagement.repository.EmployeeRepo;
 
@@ -60,17 +61,21 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public EmployeeDto employeegetById(Long empId) {
-		Employee employee = employeeRepo.findById(empId).get();
+		Employee employee = employeeRepo.findById(empId).orElseThrow(()->new EmployeeNotFoundException("Employee Not found Please Enter Valid Id !"));		
 		EmployeeDto employeeDto = new EmployeeDto();
 		employeeDto.setEmpId(employee.getEmpId());
 		employeeDto.setEmpName(employee.getEmpName());
 		employeeDto.setEmpEmail(employee.getEmpEmail());
-		return employeeDto;
+		return employeeDto;	
 	}
 
 	@Override
 	public void deleteEmployeeById(Long empId) {
+		if(employeeRepo.existsById(empId)) {
 		employeeRepo.deleteById(empId);
+		}else {
+			throw new EmployeeNotFoundException("Employee Not Found Please Enter Valid id !");
+		}
 	}
 
 	private static final String UPLOAD_DIR = "D:\\JavaCore\\ProjectManagement\\UploadFiles";

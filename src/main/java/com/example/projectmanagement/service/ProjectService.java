@@ -15,4 +15,6 @@ public interface ProjectService {
 	void deleteProjectById(Long projectId);
 	
 	void assignProject(Long empId,Long projectId);
+
+	ProjectDto getprojectById(Long projectId);
 }
